@@ -105,6 +105,7 @@
         var uuid = id;
         var url = "http://localhost:8080/v1/help/confirm?uuid=" + uuid;
 
+        // Onaylama işlemi için API isteği yapıldı
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -114,7 +115,7 @@
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            location.reload();
+            location.reload();  
         })
         .catch(error => {
             console.error('API isteği başarısız:', error);
@@ -125,6 +126,7 @@
         var uuid = id
         var url = "http://localhost:8080/v1/help/reject?uuid=" + uuid;
 
+         // Reddetme işlemi için API isteği yapıldı
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -134,7 +136,7 @@
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            location.reload();
+            location.reload();  
         })
         .catch(error => {
             console.error('API isteği başarısız:', error);

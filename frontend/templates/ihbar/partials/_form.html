@@ -46,6 +46,7 @@
 
 {% block js_files %}
     <script>
+        // Konum bilgisini almayı sağlayan fonksiyon
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition);
@@ -54,6 +55,7 @@
             }
         }
 
+        // Konum bilgisini gösteren fonksiyon
         function showPosition(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
