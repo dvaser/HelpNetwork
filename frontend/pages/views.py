@@ -143,7 +143,18 @@ def map(request):
     data = {}
     if response.status_code == 200:
         data = response.json()
-        print("DATA", data)
     else:
         pass
-    return render(request, 'partials/_map.html', {"data":data})
+
+    print(data)
+
+    url = 'http://localhost:8080/v1/point/points'
+    _response = requests.get(url)
+
+    helpMarkers = {}
+    if _response.status_code == 200:
+        helpMarkers = _response.json()
+    else:
+        pass
+
+    return render(request, 'partials/_map.html', {"data":data, 'helpMarkers':helpMarkers})

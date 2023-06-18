@@ -32,6 +32,7 @@
 {% endblock %}
 
 {% block js_files %}
+
     <!-- Leaflet JS -->
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
 
@@ -43,15 +44,9 @@
     
     <!-- Leaflet Awesome Markers JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
-    <script>
-        // Veri okuma
-        var mapData = [
-            {% for point in data %}
-                {{ point }},
-            {% endfor %}
-        ];
-
-        console.log(mapData);
+    
+    <script type="text/javascript">
+        var mapData = '{{ data|safe }}';
 
         // Haritayı oluşturun
         var map = L.map("map").setView([39.20234, 36.00000], 6);
@@ -68,7 +63,7 @@
             subdomains: "abc",
             tms: false
         }).addTo(map);
-        
+
 
         function createCircleMarker(lat, lng, color) {
             return L.circleMarker([lat, lng], {
@@ -77,52 +72,32 @@
                 fillColor: color, // Nokta dolgu rengi
                 fillOpacity: 1 // Nokta dolgu opaklığı
             });
-            }
+        };
 
-            var markers = [];
-        
-            // for (let index = 0; index < mapData.length; index++) {
-            //     // Point ekleme
-            //     point = mapData[index]
-            //     switch (point.product.number) {
-            //         case 1:
-            //             color = '#ffc107'
-            //             break;
-            //         case 2:
-            //             color = '#28a745'
-            //             break;
-            //         default:
-            //             break;
+        var markers = [];
 
-            //     markers.push(createCircleMarker(point.lat, point.lon, color).addTo(map));
-            // }
+        markers.push(createCircleMarker(16, 25, 'red').addTo(map));
 
-            
+        for (let index = 0; index < mapData.length; index++) {
+            // Point ekleme
+            var point = mapData[index]
+            console.log(point)
+            var color = ''
+            switch (point.product.number) {
+                case 1:
+                    color = '#ffc107'
+                    break;
+                case 2:
+                    color = '#28a745'
+                    break;
 
-            // Marker birleştirin
-            var markerGroup = L.layerGroup(markers);
+            markers.push(createCircleMarker(point.lat, point.lat, color).addTo(map));
+        }};
 
-            // Marker Map'e Ekle
-            markerGroup.addTo(map);
+        // Marker birleştirin
+        var markerGroup = L.layerGroup(markers);
 
-            // Legend kontrol panelini oluşturun
-            var legendControl = L.control({
-                position: 'topright'
-            });
-
-            legendControl.onAdd = function(map) {
-                var div = L.DomUtil.create('div', 'legend');
-                div.innerHTML = '<h4>Legend</h4>' +
-                    '<div><i class="circle" style="background:#dc3545;"></i>Kırmızı</div>' +
-                    '<div><i class="circle" style="background:#ffc107;"></i>Sarı</div>' +
-                    '<div><i class="circle" style="background:#28a745;"></i>Yeşil</div>' +
-                    '<div><i class="circle" style="background:#007bff;"></i>Mavi</div>';
-                return div;
-            };
-
-            // Efsane (Legend) kontrol panelini haritaya ekleyin
-            legendControl.addTo(map);
-
-
+        // Marker Map'e Ekle
+        markerGroup.addTo(map);
     </script>
 {% endblock %}
