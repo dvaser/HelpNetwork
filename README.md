@@ -1,5 +1,9 @@
 # YARDIM AĞI
 
+Proje çalıştırma
+> proje klasöründe açılan terminal ekranında "docker compose up --build -d" yazarak yapılandırma sonrası "127.0.0.1:8000" portundan bağlanabilirsiniz
+
+
 MENÜ GİRİŞ
 > ![Menu](https://github.com/dvaser/yardimAgi/assets/74770052/2181ba6e-9ab8-469f-8e73-06856b01fd76)
 - Web sitemiz deprem anını ve sonrasındaki süreçleri planlamaktadır. Sitemiz AFAD ve AFAD yetkililerine , Belediyelere ve depremden etkilenen veya yardım göndermek isteyen vatandaşlarımıza hizmet etmektedir. 
