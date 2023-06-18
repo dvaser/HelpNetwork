@@ -1,0 +1,14 @@
+#navId{
+    border-radius: 50px !important;
+    height: 400px !important;
+}
+#navId .card-text{
+    font-size: larger !important;
+}
+
+.btn-hover{
+    opacity: 0.9;
+}
+.btn-hover:hover{
+    opacity: 1;
+}

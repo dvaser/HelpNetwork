@@ -1,0 +1,212 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    AFAD
+{% endblock %}
+
+{% block head_files %}
+    <link rel="stylesheet" href="{% static 'css/partials/_backButton.v1.css' %}"/>
+    <style>
+
+        .bas {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .table thead th {
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .table-container {
+            margin-top: 20px;
+            max-height: 250px;
+            overflow-y: scroll;
+        }
+
+        .table-wrapper {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .content-wrapper::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('{% static "img/belediye.jpg" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: blur(9px);
+            opacity: 0.8;
+            z-index: -1;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class = "bas content">
+        <a href="{% url 'belediyeLogin' %}">
+            <button class="btn-back"> <img src="{% static 'icon/back-button.png' %}" style="width: 40px; height: auto;"></button>
+        </a>
+        <div class="container ">
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="{% url 'belediyeMenu' %}" method="post">
+                        {% csrf_token %}
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="fromCity">Şehir Kodu</label>
+                                    <input type="number" class="form-control" name="fromCity" id="fromCity" placeholder="Şehir Kodu" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="type">Tür</label>
+                                    <select class="form-control" name="type" id="type" onchange="changeMaterialList()" required>
+                                        <option value="">Seçim Yapınız</option>
+                                        <option value="insan">İnsan</option>
+                                        <option value="esya">Eşya</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="material">İhtiyaç Tipi</label>
+                                    <select class="form-control" name="material" id="material" required>
+                                        <option value="">Seçim Yapınız</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="adet">Adet</label>
+                                    <input type="number" class="form-control" name="adet" id="adet" placeholder="Adet" required>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-block btn-dark text-white">GÖNDER</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-container">
+                                <div class="table-wrapper">
+                                    <h3 class="display-5">İnsan İhtiyacı</h3>
+                                    <table class="table table-striped">
+                                        <thead class="bg-dark">
+                                            <tr>
+                                                <th scope="col">Meslek</th>
+                                                <th scope="col">Adet</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            {% for human in data %}
+                                            {% if human.product.isHuman %}
+                                            <tr>
+                                                <td>{{ human.product.productName }}</td>
+                                                <td>{{ human.product.number }}</td>
+                                            </tr>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-container">
+                                <div class="table-wrapper">
+                                    <h3 class="display-5">Eşya İhtiyacı</h3>
+                                    <table class="table table-striped">
+                                        <thead class="bg-dark">
+                                            <tr>
+                                                <th scope="col">Tipi</th>
+                                                <th scope="col">Adet</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            {% for obj in data %}
+                                                {% if obj.product.isHuman == False %}
+                                                <tr>
+                                                    <td>{{ obj.product.productName }}</td>
+                                                    <td>{{ obj.product.number }}</td>
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+</div>
+{% endblock %}
+    
+{% block js_files %}
+    <script>
+        function changeMaterialList() {
+            var typeSelect = document.getElementById("type");
+            var materialSelect = document.getElementById("material");
+            var selectedType = typeSelect.value;
+
+            if (selectedType === "insan") {
+                materialSelect.innerHTML = `
+                    <option selected disabled>Meslek Grubunu Seçin</option>
+                    <option value="Doktor">Doktor</option>
+                    <option value="Hemşire">Hemşire</option>
+                    <option value="Paramedik">Paramedik</option>
+                    <option value="İtfaiyeci">İtfaiyeci</option>
+                    <option value="Arama Kurtarma Ekibi">Arama Kurtarma Ekibi</option>
+                    <option value="Gönüllü Yardım Görevlisi">Gönüllü Yardım Görevlisi</option>
+                    <option value="Psikolog">Psikolog</option>
+                    <option value="Mühendis">Mühendis</option>
+                    <option value="Lojistik Personeli">Lojistik Personeli</option>
+                    <option value="Diğer">Diğer</option>
+                `;
+            } else if (selectedType === "esya") {
+                materialSelect.innerHTML = `
+                    <option selected disabled>Ürün Seçin</option>
+                    <option value="Su">Su</option>
+                    <option value="Konserve yiyecekler">Konserve yiyecekler</option>
+                    <option value="İlk yardım kiti">İlk yardım kiti</option>
+                    <option value="Battaniye">Battaniye</option>
+                    <option value="El feneri">El feneri</option>
+                    <option value="Pil">Pil</option>
+                    <option value="Radyo">Radyo</option>
+                    <option value="Şarj cihazı">Şarj cihazı</option>
+                    <option value="Ayakkabı">Ayakkabı</option>
+                    <option value="Eldiven">Eldiven</option>
+                    <option value="Kıyafet">Kıyafet</option>
+                    <option value="Para">Para</option>
+                    <option value="Uyku tulumu">Uyku tulumu</option>
+                `;
+            } else {
+                materialSelect.innerHTML = `<option value="">Seçim Yapınız</option>`;
+            }
+        }
+    </script>
+{% endblock %}

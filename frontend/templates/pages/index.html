@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Anasayfa
+{% endblock %}
+
+{% block head_files %}
+    <link rel="stylesheet" href="{% static 'css/pages/index.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="m-auto">
+
+        <!-- Map -->
+        <div class="m-4">
+            {% include 'partials/_map.html' %}
+        </div>
+
+        <!-- Pages -->
+        <div class="m-auto my-4">
+            <div class="row m-auto text-center mx-2 ">
+                {% for n in nav %}
+                    <div id="navId" class="card col m-3 btn-hover" style="background-color:{{ n.color }};">
+                        <a href="{% url n.urlName %}" class="text-white">
+                            <h2 class="h2 mt-4 fw-bolder">{{ n.name }}</h2>
+                            <hr>
+                            <div class="card-body">
+                                <h3 class="card-title p-3">{{ n.title }}</h3>
+                                <p class="card-text pt-5 px-3">{{ n.text }}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

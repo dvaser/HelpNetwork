@@ -1,0 +1,144 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Yardım Noktaları
+{% endblock %}
+
+{% block head_files %}
+    <link rel="stylesheet" href="{% static 'css/partials/_backButton.v1.css' %}"/>
+    <style>
+        .table thead th {
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .table-container {
+            margin-top: 20px;
+            max-height: 650px;
+            overflow-y: scroll;
+        }
+
+        .table-wrapper {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .action-buttons button {
+            flex-grow: 1;
+        }
+
+        .content-wrapper::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('{% static "img/afad.jpg" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: blur(8px);
+            opacity: 0.8;
+            z-index: -1;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<a href="{% url 'afadMenu' %}">
+    <button class="btn-back"> <img src="{% static 'icon/back-button.png' %}" style="width: 40px; height: auto;"></button>
+</a>
+<div class="container content-wrapper">
+    <div class="table-container content">
+        <div class="table-wrapper">
+            <table class="table table-striped">
+                <thead class="bg-dark">
+                <tr>
+                    <th scope="col">Ad Soyad</th>
+                    <th scope="col">Tel-no</th>
+                    <th scope="col">Meslek</th>
+                    <th scope="col">Şehir</th>
+                    <th scope="col">Durum</th>
+                </tr>
+                </thead>
+                <tbody id="table-body">
+                    {% for human in humans %}
+                        {% if human.product.isHuman and human.product.number|add:'0' == 3 and human.status|add:'0' == 0 %}
+                            <tr class="text-center">
+                                <td>{{ human.product.name }}</td>
+                                <td>{{ human.product.phoneNumber }}</td>
+                                <td>{{ human.product.productName }}</td>
+                                <td>{{ human.lat }}</td>
+                                <td class="action-buttons">
+                                    <button class="btn btn-success btn-sm m-1" onclick="confirm('{{ human.uuid }}')">Onayla</button>
+                                    <button class="btn btn-danger btn-sm m-1"  onclick="reject('{{ human.uuid }}')">Reddet</button>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_files %}
+<script>
+    function confirm(id) {
+        var uuid = id;
+        var url = "http://localhost:8080/v1/help/confirm?uuid=" + uuid;
+
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('API isteği başarısız:', error);
+        });
+    }
+
+    function reject(id) {
+        var uuid = id
+        var url = "http://localhost:8080/v1/help/reject?uuid=" + uuid;
+
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('API isteği başarısız:', error);
+        });
+    }
+</script>
+{% endblock %}

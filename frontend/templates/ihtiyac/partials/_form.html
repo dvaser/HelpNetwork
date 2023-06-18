@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block head_files %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mt-5">İhtiyaç Formu</h1>
+        <form action="{% url 'ihtiyac' %}" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Ad-Soyad:</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="product">Ürün Seçiniz:</label>
+                <select class="form-control" id="product" name="product" onchange="handleSelect(this)" required>
+                    <option selected disabled>Ürün Seçin</option>
+                    <option value="Su">Su</option>
+                    <option value="Konserve yiyecekler">Konserve yiyecekler</option>
+                    <option value="İlk yardım kiti">İlk yardım kiti</option>
+                    <option value="Battaniye">Battaniye</option>
+                    <option value="El feneri">El feneri</option>
+                    <option value="Pil">Pil</option>
+                    <option value="Radyo">Radyo</option>
+                    <option value="Şarj cihazı">Şarj cihazı</option>
+                    <option value="Ayakkabı">Ayakkabı</option>
+                    <option value="Eldiven">Eldiven</option>
+                    <option value="Kıyafet">Kıyafet</option>
+                    <option value="Para">Para</option>
+                    <option value="Uyku tulumu">Uyku tulumu</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">Telefon:</label>
+                <input type="number" id="phone" name="phone" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="location" class="form-label">Yardım Alanı Seçiniz:</label>
+                <select class="form-control" id="location" name="location">
+                    {% for loc in location %}
+                        <option value="{{ loc.lat }}-{{ loc.lon }}">Konum - {{ forloop.counter }} ({{ loc.lat }}° - {{ loc.lon }}°)</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-end m-3">
+                <button type="submit" class="btn btn-success">Başvur</button>
+            </div>
+        </form>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js_files %}
+    <script>
+        
+        function handleSelect(select) {
+            var customProductDiv = document.getElementById("custom-product-div");
+            if (select.value === "listedeki-urunler") {
+                customProductDiv.style.display = "block";
+            } else {
+                customProductDiv.style.display = "none";
+            }
+        }
+
+    </script>
+{% endblock %}

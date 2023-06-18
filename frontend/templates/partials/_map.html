@@ -1,0 +1,128 @@
+{% load static %}
+
+{% block head_files %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css" />
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+
+<!-- Font Awesome CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+
+<!-- Leaflet Awesome Markers CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
+
+<!-- Leaflet Awesome Markers Rotate CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css" />
+
+<link rel="stylesheet" href="{% static 'css/partials/_map.css' %}"/>
+
+{% endblock %}
+
+{% block content %}
+    <!-- Harita için bir div oluşturun -->
+    <div class="content-center">
+        <div id="map"></div>
+    </div>
+{% endblock %}
+
+{% block js_files %}
+    <!-- Leaflet JS -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    
+    <!-- Leaflet Awesome Markers JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <script>
+        // Veri okuma
+        var mapData = [
+            {% for point in data %}
+                {{ point }},
+            {% endfor %}
+        ];
+
+        console.log(mapData);
+
+        // Haritayı oluşturun
+        var map = L.map("map").setView([39.20234, 36.00000], 6);
+
+        // OpenStreetMap tabakasını ekleyin
+        var tileLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: 'Data by &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>',
+            detectRetina: false,
+            maxNativeZoom: 18,
+            maxZoom: 18,
+            minZoom: 0,
+            noWrap: false,
+            opacity: 1,
+            subdomains: "abc",
+            tms: false
+        }).addTo(map);
+        
+
+        function createCircleMarker(lat, lng, color) {
+            return L.circleMarker([lat, lng], {
+                radius: 4, // Nokta çapı
+                color: color, // Nokta dış çizgi rengi
+                fillColor: color, // Nokta dolgu rengi
+                fillOpacity: 1 // Nokta dolgu opaklığı
+            });
+            }
+
+            var markers = [];
+        
+            // for (let index = 0; index < mapData.length; index++) {
+            //     // Point ekleme
+            //     point = mapData[index]
+            //     switch (point.product.number) {
+            //         case 1:
+            //             color = '#ffc107'
+            //             break;
+            //         case 2:
+            //             color = '#28a745'
+            //             break;
+            //         default:
+            //             break;
+
+            //     markers.push(createCircleMarker(point.lat, point.lon, color).addTo(map));
+            // }
+
+            
+
+            // Marker birleştirin
+            var markerGroup = L.layerGroup(markers);
+
+            // Marker Map'e Ekle
+            markerGroup.addTo(map);
+
+            // Legend kontrol panelini oluşturun
+            var legendControl = L.control({
+                position: 'topright'
+            });
+
+            legendControl.onAdd = function(map) {
+                var div = L.DomUtil.create('div', 'legend');
+                div.innerHTML = '<h4>Legend</h4>' +
+                    '<div><i class="circle" style="background:#dc3545;"></i>Kırmızı</div>' +
+                    '<div><i class="circle" style="background:#ffc107;"></i>Sarı</div>' +
+                    '<div><i class="circle" style="background:#28a745;"></i>Yeşil</div>' +
+                    '<div><i class="circle" style="background:#007bff;"></i>Mavi</div>';
+                return div;
+            };
+
+            // Efsane (Legend) kontrol panelini haritaya ekleyin
+            legendControl.addTo(map);
+
+
+    </script>
+{% endblock %}

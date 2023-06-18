@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Tablo
+{% endblock %}
+
+{% block head_files %}
+    <link rel="stylesheet" href="{% static 'css/partials/_backButton.v1.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/afad/insanYardim.css' %}"/>
+    <style>
+        .content-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+        .content-wrapper::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('{% static "img/deprem.jpg" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: blur(5px);
+            opacity: 0.8;
+            z-index: -1;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+        }
+        .table-wrapper {
+            height: 400px !important;
+            overflow: auto;
+        }
+        .table-scroll {
+            max-height: 100%;
+            overflow: auto;
+        }
+        .table-wrapper.hidden {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="content">
+            <a href="{% url 'afadMenu' %}">
+                <button class="btn-back"> <img src="{% static 'icon/back-button.png' %}" style="width: 40px; height: auto;"></button>
+            </a>
+            <ul class="menu cf">
+                <li>
+                    <a href="#lojistik">LOJİSTİK</a>		
+                </li>
+            </ul>
+
+            <div id="lojistik" class="m-auto table-wrapper w-75">
+                <table class="table table-dark table-scroll table-hover table-bordered w-100 mx-auto">
+                    <thead style="background-color: rgb(14, 12, 12);" >
+                        <tr>
+                            <th>Kişi Adı-Soyadı</th>
+                            <th>Konum</th>
+                            <th>Tel-no</th>
+                            <th>Meslek</th>
+                        </tr>
+                    </thead>
+                    <tbody style="background-color: rgb(39, 35, 35);" >
+                        {% for human in humans %}
+                            {% if human.product.isHuman and human.product.number|add:'0' == 3 and human.status|add:'0' == 1 %}
+                                <tr>
+                                    <td>{{human.product.name}}</td>
+                                    <td>{{human.lat}}</td>
+                                    <td>{{human.product.phoneNumber}}</td>
+                                    <td>{{human.product.productName}}</td>
+                                </tr>
+                                {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lojistik bağlantısına tıklandığında sadece lojistik tablosunu göster
+        document.querySelector('a[href="#lojistik"]').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('stok').classList.add('hidden');
+            document.getElementById('ihtiyac').classList.add('hidden');
+            document.getElementById('lojistik').classList.remove('hidden');
+        });
+    </script>
+{% endblock %}

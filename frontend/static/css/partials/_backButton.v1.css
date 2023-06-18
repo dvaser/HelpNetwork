@@ -1,0 +1,15 @@
+.btn-back {
+    position:absolute;
+    left: 60px ;
+    top:40px;
+    background-color: transparent !important;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    width: initial !important;
+    height: initial !important ;
+    z-index: 99999999999;
+    background-color: white;
+    cursor: pointer;
+    color: white;
+}

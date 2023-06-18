@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    AFAD
+{% endblock %}
+
+{% block head_files %}
+    <link rel="stylesheet" href="{% static 'css/partials/_backButton.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="m-auto">
+        <!-- Pages -->
+        <div class="row text-center m-4">
+            {% for n in nav %}
+                <a href="{% url n.urlName %}" class="btn btn-lg col m-2 rounded-pill text-white" style="background-color:{{ n.color }};">
+                    <div class="fw-bolder">{{ n.name }}</div>
+                </a>
+            {% endfor %}
+        </div>
+
+        <!-- login -->
+        <div class="m-4">
+            <a href="{% url 'home' %}">
+                <button class="btn-back"> <img src="{% static 'icon/back-button.png' %}" style="width: 40px; height: auto;"></button>
+            </a>
+            {% include 'afad/partials/_login.html' %}
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block head_files %}
+    <link rel="stylesheet" href="{% static 'css/belediye/partials/_login.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <section class="login py-3 px-4">
+        <div>
+            <div class="row row-log g-0">
+                <div class="col-5">
+                    <img src="{% static 'img/belediye.jpg' %}">
+                </div>
+
+                <div class="col-7 text-center py-5 text-secondary">
+                    <form class="m-5 w-100 p-5" action="{% url 'belediyeLogin' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-row py-2 pt-5">
+                            <div class="offset-1 col-lg-10">
+                                <input type="text" class="inp px-3" id="cityCode" placeholder="TC GİRİNİZ">
+                            </div>
+                        </div>
+                        <div class="form-row py-2">
+                                <div class="offset-1 col-lg-10">
+                                    <input type="password" class="inp px-3" placeholder="ŞiFREYİ GİRİNİZ">
+                                </div>
+                        </div>
+                        <div class="form-row py-2">
+                            <div class="offset-1 col-lg-10">
+                                <a href="{% url 'belediyeMenu' %}">
+                                    <div class="btn btn-dark">GİRİŞ YAP</div>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

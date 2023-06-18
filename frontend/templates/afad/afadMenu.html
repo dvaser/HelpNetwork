@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    AFAD
+{% endblock %}
+
+{% block head_files %}
+    <link rel="stylesheet" href="{% static 'css/afad/afadMenu.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <section class="login p-4 m-5">
+        <div class="">
+            <div class="row row-log g-0">
+                <a href="{% url 'afadLogin' %}">
+                    <button class="btn-back"> <img src="{% static 'icon/back-button.png' %}" style="width: 40px; height: auto;"></button>
+                </a>
+
+                <div class="col-5">
+                    <img src="{% static 'img/afad.jpg' %}">
+                </div>
+
+                <div id="btns" class="col-7 text-center py-5 text-secondary ">
+                    <a href="{% url 'afadInsan' %}">
+                        <button style="background-color: #dd7681;" type="button" class="btn btn4">İNSANİ YARDIM</button>
+                    </a>
+                    <a href="{% url 'afadIhtiyac' %}">
+                        <button style="background-color: #dd7681;" type="button" class="btn btn1">İHTİYAÇ YARDIMI</button>
+                    </a>
+                    
+                    <a href="{% url 'afadYardimNoktalar' %}">
+                        <button style="background-color: #dd7681;" type="button" class="btn btn2">YARDIM ALANLARI</button>
+                    </a>
+
+                    <a href="{% url 'afadYardimBasvurular' %}">
+                        <button style="background-color: #dd7681;" type="button" class="btn btn3">YARDIM BAŞVURULARI</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
