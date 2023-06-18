@@ -97,11 +97,14 @@
                     <tbody style="background-color: rgb(39, 35, 35);" >
                         {% for need in needs %}
                             {% for fromTo in need.need %}
-                                <tr>
-                                    <td>{{fromTo.productName}}</td>
-                                    <td>1</td>
-                                    <td>({{ need.lat }}° - {{ need.lon }}°)</td>
-                                </tr>
+                                {% if stok.product.isHuman == False %}
+                                    <tr>
+                                        <td>{{fromTo.productName}}</td>
+                                        <td>1</td>
+                                        <td>({{ need.lat }}° - {{ need.lon }}°)</td>
+                                    </tr>
+                                    
+                                {% endif %}
                             {% endfor %}
                         {% endfor %}
                     </tbody>
