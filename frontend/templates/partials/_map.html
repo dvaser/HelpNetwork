@@ -25,6 +25,8 @@
 {% endblock %}
 
 {% block content %}
+
+    <div id="result"></div>
     <!-- Harita için bir div oluşturun -->
     <div class="content-center">
         <div id="map"></div>
@@ -45,9 +47,10 @@
     <!-- Leaflet Awesome Markers JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
     
-    <script type="text/javascript">
-        var mapData = '{{ data }}';
 
+    <script type="text/javascript">
+        const mapData = JSON.parse("{{data|escapejs}}");
+        
         // Haritayı oluşturun
         var map = L.map("map").setView([39.20234, 36.00000], 6);
 
@@ -64,7 +67,6 @@
             tms: false
         }).addTo(map);
 
-
         function createCircleMarker(lat, lng, color) {
             return L.circleMarker([lat, lng], {
                 radius: 4, // Nokta çapı
@@ -76,22 +78,19 @@
 
         var markers = [];
 
-        markers.push(createCircleMarker(16, 25, 'red').addTo(map));
-
         for (let index = 0; index < mapData.length; index++) {
             // Point ekleme
-            var point = mapData[index]
-            console.log(point)
-            var color = ''
-            switch (point.product.number) {
+            
+            var sw = mapData[index].product.number
+            var lat = mapData[index].lat
+            var lon = mapData[index].lon
+            switch (sw) {
                 case 1:
-                    color = '#ffc107'
+                    markers.push(createCircleMarker(lat, lon, '#ffc107').addTo(map));
                     break;
                 case 2:
-                    color = '#28a745'
+                    markers.push(createCircleMarker(lat, lon, '#28a745').addTo(map));
                     break;
-
-            markers.push(createCircleMarker(point.lat, point.lat, color).addTo(map));
         }};
 
         // Marker birleştirin

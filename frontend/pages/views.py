@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import requests
+from json import dumps
 
 nav = [
     {
@@ -47,11 +48,11 @@ def home(request):
     data = {}
     if response.status_code == 200:
         data = response.json()
+        dataJSON = dumps(data)
     else:
         pass
-    print(data)
-    
-    return render(request, 'pages/index.html', {"nav":nav, "data":data})
+
+    return render(request, 'pages/index.html', {"nav":nav, "data":dataJSON})
 
 def afadLogin(request):
     navs = nav.copy()
@@ -147,4 +148,13 @@ def yardim(request):
     return render(request, 'pages/yardim.html', {"nav":navs})
 
 def map(request):
-    return render(request, 'partials/_map.html')
+    url = 'http://localhost:8080/v1/point/points'
+    _response = requests.get(url)
+
+    _data = {}
+    if _response.status_code == 200:
+        _data = _response.json()
+        _dataJSON = dumps(_data)
+    else:
+        pass
+    return render(request, 'partials/_map.html', {"markerData":_dataJSON})
