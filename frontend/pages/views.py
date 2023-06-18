@@ -41,7 +41,17 @@ nav = [
 
 # Create your views here.
 def home(request):
-    return render(request, 'pages/index.html', {"nav":nav})
+    url = 'http://localhost:8080/v1/help/helps'
+    response = requests.get(url)
+
+    data = {}
+    if response.status_code == 200:
+        data = response.json()
+    else:
+        pass
+    print(data)
+    
+    return render(request, 'pages/index.html', {"nav":nav, "data":data})
 
 def afadLogin(request):
     navs = nav.copy()
@@ -137,24 +147,4 @@ def yardim(request):
     return render(request, 'pages/yardim.html', {"nav":navs})
 
 def map(request):
-    url = 'http://localhost:8080/v1/help/helps'
-    response = requests.get(url)
-
-    data = {}
-    if response.status_code == 200:
-        data = response.json()
-    else:
-        pass
-
-    print(data)
-
-    url = 'http://localhost:8080/v1/point/points'
-    _response = requests.get(url)
-
-    helpMarkers = {}
-    if _response.status_code == 200:
-        helpMarkers = _response.json()
-    else:
-        pass
-
-    return render(request, 'partials/_map.html', {"data":data, 'helpMarkers':helpMarkers})
+    return render(request, 'partials/_map.html')
