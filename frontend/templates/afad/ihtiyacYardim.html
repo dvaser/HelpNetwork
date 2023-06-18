@@ -97,7 +97,7 @@
                     <tbody style="background-color: rgb(39, 35, 35);" >
                         {% for need in needs %}
                             {% for fromTo in need.need %}
-                                {% if stok.product.isHuman == False %}
+                                {% if fromTo.isHuman == False %}
                                     <tr>
                                         <td>{{fromTo.productName}}</td>
                                         <td>1</td>
