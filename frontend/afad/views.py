@@ -7,44 +7,6 @@ def menu(request):
 
 def ihtiyac(request):
 
-    lojistik = [
-        {
-            "name":'Cocuk Bezi',
-            "adet":'400',
-            "from":'Bursa',
-            "to":'Maras',
-            "point":{
-                "id":"1",
-                "name":"Edremit"
-            }
-        },
-        {
-            "name":'Ilac',
-            "adet":'1',
-            "from":'Bayburt',
-            "to":'Maras',
-        },
-        {
-            "name":'Kiyafet',
-            "adet":'40',
-            "from":'Istanbul',
-            "to":'Maras',
-        },
-        {
-            "name":'Ayakkabi',
-            "adet":'26',
-            "from":'Izmir',
-            "to":'Maras',
-        },
-        {
-            "name":'Cadir',
-            "adet":'100',
-            "from":'Adana',
-            "to":'Maras',
-        },
-        
-    ]
-    
     url = 'http://localhost:8080/v1/assistance/assistances'
     response = requests.get(url)
 
@@ -65,7 +27,7 @@ def ihtiyac(request):
     else:
         pass
 
-    return render(request, 'afad/ihtiyacYardim.html', {'stoks':stok, 'needs':need, 'lojistiks':lojistik})
+    return render(request, 'afad/ihtiyacYardim.html', {'stoks':stok, 'needs':need})
 
 def yardimlar(request):
     url = 'http://localhost:8080/v1/help/helps'

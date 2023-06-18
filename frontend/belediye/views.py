@@ -10,6 +10,8 @@ def menu(request):
         material = request.POST.get('material')
         adet = request.POST.get('adet')
 
+        print(fromCity)
+        
         json = {
             'from':fromCity,
             'name':'',
