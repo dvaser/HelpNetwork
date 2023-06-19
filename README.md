@@ -1,8 +1,8 @@
 # YARDIM AĞI
 
-Proje çalıştırma
+Proje çalıştırma (RUN PROJECT)
 > proje klasöründe açılan terminal ekranında "docker compose up --build -d" yazarak yapılandırma sonrası "127.0.0.1:8000" portundan bağlanabilirsiniz
-
+>> Build "docker compose up --build -d" in terminal screen after connect to "127.0.0.1:8000" port
 
 MENÜ GİRİŞ
 > ![Menu](https://github.com/dvaser/yardimAgi/assets/74770052/2181ba6e-9ab8-469f-8e73-06856b01fd76)
