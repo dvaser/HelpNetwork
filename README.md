@@ -7,7 +7,7 @@ RUN PROJECT (Proje çalıştırma)
 
 <table>
   <tr>
-    <td width="600">
+    <td width="500">
         <img src="https://github.com/dvaser/yardimAgi/assets/74770052/2181ba6e-9ab8-469f-8e73-06856b01fd76" width="600">
     </td>
     <td>
@@ -45,7 +45,7 @@ RUN PROJECT (Proje çalıştırma)
       <img src="https://github.com/dvaser/yardimAgi/assets/74770052/a17f107f-05e4-4cda-a53d-71ea7fba548f" width="600">
     </td>
     <td>
-      1. İnsan iş gücü (aperatör , doktor vb.) için başvuran gönüllü vatandaşların seçilmesi sağlanır.
+      1. İnsan iş gücü (operatör , doktor vb.) için başvuran gönüllü vatandaşların seçilmesi sağlanır.
     </td>
   </tr>
   <tr>
